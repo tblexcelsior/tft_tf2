@@ -1051,6 +1051,7 @@ class TemporalFusionTransformer(object):
 
       model = tf.keras.Model(inputs=all_inputs, outputs=outputs)
 
+      # tf.keras.utils.plot_model(model, './test.png', show_shapes=True)
       print(model.summary())
 
       valid_quantiles = self.quantiles
