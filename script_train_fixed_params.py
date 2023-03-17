@@ -213,15 +213,23 @@ if __name__ == "__main__":
             choices=["yes", "no"],
             default="no",
             help="Whether to use gpu for training.")
+        parser.add_argument(
+            "use_testing_mode",
+            metavar="g",
+            type=str,
+            nargs="?",
+            choices=["yes", "no"],
+            default="yes",
+            help="Whether to use gpu for training.")
 
         args = parser.parse_known_args()[0]
 
         root_folder = None if args.output_folder == "." else args.output_folder
 
-        return args.expt_name, root_folder, args.use_gpu == "yes"
+        return args.expt_name, root_folder, args.use_gpu == "yes", args.use_testing_mode == "yes"
 
 
-    name, output_folder, use_tensorflow_with_gpu = get_args()
+    name, output_folder, use_tensorflow_with_gpu, use_testing_mode = get_args()
 
     print("Using output folder {}".format(output_folder))
 
@@ -235,4 +243,4 @@ if __name__ == "__main__":
         model_folder=os.path.join(config.model_folder, "fixed"),
         data_csv_path=config.data_csv_path,
         data_formatter=formatter,
-        use_testing_mode=True)  # Change to false to use original default params
+        use_testing_mode=use_testing_mode)  # Change to false to use original default params
