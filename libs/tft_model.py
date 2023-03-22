@@ -1115,7 +1115,7 @@ class TemporalFusionTransformer(object):
             patience=self.early_stopping_patience,
             min_delta=1e-4),
         tf.keras.callbacks.ModelCheckpoint(
-            filepath=self.get_keras_saved_path(self._temp_folder),
+            filepath=self.get_keras_saved_path(self._temp_folder, False),
             monitor='val_loss',
             save_best_only=True,
             save_weights_only=True),
@@ -1162,7 +1162,7 @@ class TemporalFusionTransformer(object):
         workers=self.n_multiprocessing_workers)
 
     # Load best checkpoint again
-    tmp_checkpont = self.get_keras_saved_path(self._temp_folder)
+    tmp_checkpont = self.get_keras_saved_path(self._temp_folder, True)
     if os.path.exists(tmp_checkpont):
       self.load(
           self._temp_folder,
@@ -1333,9 +1333,12 @@ class TemporalFusionTransformer(object):
     shutil.rmtree(self._temp_folder)
     os.makedirs(self._temp_folder)
 
-  def get_keras_saved_path(self, model_folder):
+  def get_keras_saved_path(self, model_folder, to_check = False):
     """Returns path to keras checkpoint."""
-    return os.path.join(model_folder, '{}.check'.format(self.name))
+    if to_check:
+      return os.path.join(model_folder, '{}.check.index'.format(self.name))
+    else:
+      return os.path.join(model_folder, '{}.check'.format(self.name))
 
   def save(self, model_folder):
     """Saves optimal TFT weights.
@@ -1365,7 +1368,7 @@ class TemporalFusionTransformer(object):
     """
     if use_keras_loadings:
       # Loads temporary Keras model saved during training.
-      serialisation_path = self.get_keras_saved_path(model_folder)
+      serialisation_path = self.get_keras_saved_path(model_folder, False)
       print('Loading model from {}'.format(serialisation_path))
       self.model.load_weights(serialisation_path)
     else:
