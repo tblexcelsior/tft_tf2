@@ -116,7 +116,7 @@ def main(expt_name,
 
             params = opt_manager.get_next_parameters()
             model = ModelClass(params, use_cudnn=use_gpu)
-            if train_new == False:
+            if train_new == False or _ > 0:
                 model.load(opt_manager.hyperparam_folder)
             if not model.training_data_cached():
                 model.cache_batched_data(train, "train", num_samples=train_samples)
