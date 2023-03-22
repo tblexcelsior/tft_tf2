@@ -164,8 +164,8 @@ class TonometerFormatter(GenericDataFormatter):
     
     def get_fixed_params(self):
         fixed_params = {
-            'total_time_steps': 8 * 50,
-            'num_encoder_steps': 7 * 50,
+            'total_time_steps': 4 * 50,
+            'num_encoder_steps': 3 * 50,
             'num_epochs': 100,
             'early_stopping_patience': 5,
             'multiprocessing_workers': 5
@@ -176,7 +176,7 @@ class TonometerFormatter(GenericDataFormatter):
         model_params = {
         'dropout_rate': 0.1,
         'hidden_layer_size': 160,
-        'learning_rate': 0.001,
+        'learning_rate': 0.01,
         'minibatch_size': 256,
         'max_gradient_norm': 0.01,
         'num_heads': 4,
@@ -185,4 +185,4 @@ class TonometerFormatter(GenericDataFormatter):
         return model_params
     
     def get_num_samples_for_calibration(self):
-        return 160000, 11010
+        return 450000, 50000
